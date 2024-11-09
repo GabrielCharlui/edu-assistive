@@ -12,30 +12,20 @@
     </header>
 
     <main>
+      <!-- Página inicial -->
       <div class="banner" v-if="currentPage === 'home'">
         <h1>Bem-vindo à Plataforma de Ensino!</h1>
         <p>Aprenda no seu próprio ritmo com nossos cursos online.</p>
         <button @click="showPage('login')" class="cta-button">Acesse sua Conta</button>
       </div>
 
-      <!-- Exibe o componente LoginUsuario se a página atual for 'login' -->
-      <LoginUsuario v-if="currentPage === 'login'" @login-success="handleLoginSuccess" />
+      <!-- Página de Login -->
+      <LoginPage v-if="currentPage === 'login'" @login-success="handleLoginSuccess" />
 
-      <div v-if="currentPage === 'about'">
-        <h2>Sobre</h2>
-        <p>Informações sobre a plataforma...</p>
-      </div>
-      
-      <div v-if="currentPage === 'courses'">
-        <h2>Cursos</h2>
-        <p>Lista de cursos disponíveis...</p>
-      </div>
-
-      <!-- Agora é possível exibir o conteúdo do Dashboard após o login -->
-      <div v-if="currentPage === 'dashboard'">
-        <ConteudoForm />
-        <NotasForm />
-        <NotasList />
+      <!-- Exibe o dashboard do aluno ou professor se autenticado -->
+      <div v-if="isAuthenticated">
+        <StudentDashboard v-if="isStudent && currentPage === 'studentDashboard'" />
+        <TeacherDashboard v-if="isTeacher && currentPage === 'teacherDashboard'" />
       </div>
     </main>
 
@@ -46,30 +36,44 @@
 </template>
 
 <script>
-import LoginUsuario from './LoginUsuario.vue'; // Importa o componente de login
-import ConteudoForm from './ConteudoForm.vue'; // Componente do conteúdo do dashboard
-import NotasForm from './NotasForm.vue'; // Componente de notas no dashboard
-import NotasList from './NotasList.vue'; // Lista de notas
+import LoginPage from './LoginPage.vue';
+import StudentDashboard from './StudentDashboard.vue';
+import TeacherDashboard from './TeacherDashboard.vue';
 
 export default {
   name: 'HomePage',
   components: {
-    LoginUsuario,
-    ConteudoForm,
-    NotasForm,
-    NotasList
+    LoginPage,
+    TeacherDashboard,
+    StudentDashboard
   },
   data() {
     return {
-      currentPage: 'home' // Define a página inicial como 'home'
+      currentPage: 'home', // Página inicial
+      isAuthenticated: false, // Estado de autenticação
+      isStudent: false, // Estado para aluno
+      isTeacher: false // Estado para professor
     };
   },
   methods: {
+    // Muda a página atual com base no clique
     showPage(page) {
-      this.currentPage = page; // Altera a página atual
+      this.currentPage = page;
     },
-    handleLoginSuccess() {
-      this.currentPage = 'dashboard'; // Redireciona para a página 'dashboard' após o login
+    
+    // Método para tratar o login e definir o tipo de conta
+    handleLoginSuccess(userType) {
+      this.isAuthenticated = true; // Define que o usuário está autenticado
+
+      if (userType === 'teacher') {
+        this.isTeacher = true;
+        this.isStudent = false;
+        this.showPage('teacherDashboard'); // Exibe o dashboard do professor
+      } else if (userType === 'student') {
+        this.isStudent = true;
+        this.isTeacher = false;
+        this.showPage('studentDashboard'); // Exibe o dashboard do aluno
+      }
     }
   }
 };

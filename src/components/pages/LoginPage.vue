@@ -25,10 +25,16 @@
     },
     methods: {
       handleLogin() {
-        if (this.username === 'admin' && this.password === 'admin') {
-          this.$emit('login-success');
-          this.errorMessage = 'login-success'
-        } else {
+        
+        if (this.username === 'aluno@test.com' && this.password === '357951') {
+          this.$emit('login-success', 'student');
+          this.errorMessage = 'Credenciais válidas. Você está autenticado.'
+        }
+        else if (this.username === 'admin' && this.password === 'admin') {
+          this.$emit('login-success', 'teacher');
+          this.errorMessage = 'Credenciais válidas. Você está autenticado.'
+        }
+        else {
           this.errorMessage = 'Usuário ou senha incorretos.';
         }
       }
