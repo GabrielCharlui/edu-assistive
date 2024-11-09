@@ -1,25 +1,41 @@
 <template>
   <div class="app">
-    <h1>Tela Principal</h1>
-    <nav>
-      <button @click="showPage('conteudo')">Indicar Conteúdo</button>
-      <button @click="showPage('notas')">Lançar Notas</button>
-      <button @click="showPage('notasList')">Notas Lançadas</button>
-    </nav>
+    <!-- Condição de login -->
+    <div v-if="!isLoggedIn">
+      <HomePage @login-request="showLogin" />
+      <LoginUsuario v-if="showLoginForm" @login-success="handleLoginSuccess" />
+    </div>
 
-    <div v-if="currentPage === 'conteudo'">
-      <ConteudoForm />
-    </div>
-    <div v-if="currentPage === 'notas'">
-      <NotasForm />
-    </div>
-    <div v-if="currentPage === 'notasList'">
-      <NotasList />
+    <!-- Condição para páginas após login -->
+    <div v-if="isLoggedIn">
+      <!-- Menu de navegação -->
+      <nav>
+        <button @click="showPage('dashboard')">Dashboard</button>
+        <button @click="showPage('conteudo')">Conteúdo</button>
+        <button @click="showPage('notas')">Notas</button>
+        <button @click="showPage('notasList')">Notas List</button>
+        <button @click="handleLogout">Logout</button>
+      </nav>
+
+      <!-- Exibe o DashboardPage se a página atual for 'dashboard' -->
+      <DashboardPage v-if="currentPage === 'dashboard'" />
+      
+      <!-- Exibe o ConteudoForm se a página atual for 'conteudo' -->
+      <ConteudoForm v-if="currentPage === 'conteudo'" />
+      
+      <!-- Exibe o NotasForm se a página atual for 'notas' -->
+      <NotasForm v-if="currentPage === 'notas'" />
+      
+      <!-- Exibe o NotasList se a página atual for 'notasList' -->
+      <NotasList v-if="currentPage === 'notasList'" />
     </div>
   </div>
 </template>
 
 <script>
+import HomePage from './components/HomePage.vue';
+import LoginUsuario from './components/LoginUsuario.vue';
+import DashboardPage from './components/DashboardPage.vue';
 import ConteudoForm from './components/ConteudoForm.vue';
 import NotasForm from './components/NotasForm.vue';
 import NotasList from './components/NotasList.vue';
@@ -27,18 +43,35 @@ import NotasList from './components/NotasList.vue';
 export default {
   name: 'App',
   components: {
+    HomePage,
+    LoginUsuario,
+    DashboardPage,
     ConteudoForm,
     NotasForm,
-    NotasList
+    NotasList,
   },
   data() {
     return {
-      currentPage: 'conteudo' // Página padrão
+      currentPage: 'home', // Página padrão inicial
+      isLoggedIn: false, // Estado de autenticação
+      showLoginForm: false, // Controla a exibição do formulário de login
     };
   },
   methods: {
     showPage(page) {
       this.currentPage = page; // Atualiza a página atual
+    },
+    showLogin() {
+      this.showLoginForm = true; // Mostra o formulário de login
+    },
+    handleLoginSuccess() {
+      this.isLoggedIn = true; // Atualiza o estado de autenticação
+      this.showLoginForm = false; // Oculta o formulário de login
+      this.currentPage = 'dashboard'; // Redireciona para a página padrão após login
+    },
+    handleLogout() {
+      this.isLoggedIn = false; // Atualiza o estado de autenticação
+      this.currentPage = 'home'; // Redireciona para a página principal
     }
   }
 };

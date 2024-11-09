@@ -96,10 +96,9 @@
   }
   
   .form-input {
-    width: 100%;
+    width: 90%;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 1px solid #ccc;  border-radius: 5px;
     font-size: 16px;
     transition: border-color 0.3s;
   }

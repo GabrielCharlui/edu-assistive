@@ -98,6 +98,7 @@ export default {
     youtubeEmbed(url) {
       const videoId = url.split('v=')[1];
       const ampersandPosition = videoId ? videoId.indexOf('&') : -1;
+      // Example https://www.youtube.com/watch?v=Sj5C24PsL60
       return `https://www.youtube.com/embed/${
         ampersandPosition === -1 ? videoId : videoId.substring(0, ampersandPosition)
       }`;
@@ -138,9 +139,9 @@ label {
   color: #555;
 }
 
-.form-input,
+.form-input,  
 .form-textarea {
-  width: 100%;
+  width: 90%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
