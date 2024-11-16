@@ -1,61 +1,59 @@
 <template>
   <div class="conteudo-view-container">
-    <h2>Conteúdos Disponíveis</h2>
+    <div class="conteudo-flex-container">
+      <!-- Tabela de Conteúdos -->
+      <div class="conteudo-tabela-container">
+        <div v-if="conteudos.length === 0" class="no-content-message">
+          <p>Não há conteúdo publicado no momento.</p>
+        </div>
 
-    <!-- Exibe a lista de conteúdos se a tabela estiver vazia -->
-    <div v-if="conteudos.length === 0" class="no-content-message">
-      <p>Não há conteúdo publicado no momento.</p>
-    </div>
-
-    <!-- Tabela de Conteúdos -->
-    <table v-if="conteudos.length > 0" class="conteudo-tabela">
-      <thead>
-        <tr>
-          <th>Título</th>
-          <th>Descrição</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="(conteudo, index) in conteudos"
-          :key="index"
-          @click="abrirConteudo(conteudo)"
-          class="conteudo-linha"
-        >
-          <td>{{ conteudo.titulo }}</td>
-          <td>{{ conteudo.descricao }}</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <!-- Detalhe do Conteúdo (aparece após o clique) -->
-    <div v-if="conteudoSelecionado" class="conteudo-detalhado">
-      <h3>{{ conteudoSelecionado.titulo }}</h3>
-      <p>{{ conteudoSelecionado.descricao }}</p>
-
-      <!-- Visualização de Imagem (se houver) -->
-      <div v-if="conteudoSelecionado.imagem" class="image-preview">
-        <h4>Imagem do Conteúdo:</h4>
-        <img :src="conteudoSelecionado.imagem" alt="Conteúdo Imagem" class="preview-image" />
+        <table v-if="conteudos.length > 0" class="conteudo-tabela">
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Descrição</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(conteudo, index) in conteudos"
+              :key="index"
+              @click="abrirConteudo(conteudo)"
+              class="conteudo-linha"
+            >
+              <td>{{ conteudo.titulo }}</td>
+              <td>{{ conteudo.descricao }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <!-- Visualização de Vídeo (se houver) -->
-      <div v-if="conteudoSelecionado.videoUrl" class="video-preview">
-        <h4>Vídeo do Conteúdo:</h4>
-        <iframe
-          :src="youtubeEmbed(conteudoSelecionado.videoUrl)"
-          frameborder="0"
-          allowfullscreen
-          class="video-frame"
-        ></iframe>
+      <!-- Detalhe do Conteúdo (aparece após o clique) -->
+      <div v-if="conteudoSelecionado" class="conteudo-detalhado-container">
+        <div class="conteudo-detalhado">
+          <h3>{{ conteudoSelecionado.titulo }}</h3>
+          <p>{{ conteudoSelecionado.descricao }}</p>
+
+          <!-- Visualização de Imagem (se houver) -->
+          <div v-if="conteudoSelecionado.imagem" class="image-preview">
+            <h4>Imagem do Conteúdo:</h4>
+            <img :src="conteudoSelecionado.imagem" alt="Conteúdo Imagem" class="preview-image" />
+          </div>
+
+          <!-- Visualização de Vídeo (se houver) -->
+          <div v-if="conteudoSelecionado.videoUrl" class="video-preview">
+            <h4>Vídeo do Conteúdo:</h4>
+            <iframe
+              :src="youtubeEmbed(conteudoSelecionado.videoUrl)"
+              frameborder="0"
+              allowfullscreen
+              class="video-frame"
+            ></iframe>
+          </div>
+
+          <button @click="fecharConteudo">Fechar</button>
+        </div>
       </div>
-
-      <button @click="fecharConteudo">Fechar</button>
-    </div>
-
-    <!-- Mensagem se não houver conteúdo -->
-    <div v-if="conteudos.length > 0 && !conteudos[0].titulo" class="no-content-message">
-      <p>Conteúdo indisponível no momento.</p>
     </div>
   </div>
 </template>
@@ -65,31 +63,31 @@ export default {
   data() {
     return {
       conteudos: [
-  {
-    titulo: 'Curso de História',
-    descricao: 'Conteúdo sobre a Lofi Girl do YouTube',
-    imagem: 'https://images.squarespace-cdn.com/content/v1/580fbaac440243d8731ffc57/46cb49b3-63d7-40e1-9cd0-540fbecdc39c/Lofi+Girl+16x9.jpeg',
-    videoUrl: 'https://www.youtube.com/watch?v=Sj5C24PsL60',
-  },
-  {
-    titulo: 'Curso de Matemática',
-    descricao: 'Conteúdo sobre álgebra e cálculo.',
-    imagem: '/images/matematica.jpg',
-    videoUrl: 'https://www.youtube.com/watch?v=qAl-3ljg8N4',
-  },
-  {
-    titulo: 'Curso de Física',
-    descricao: 'Conteúdo sobre leis da física e mecânica clássica.',
-    imagem: '/images/fisica.jpg',
-    videoUrl: 'https://www.youtube.com/watch?v=B2u8FYE9fWk',
-  },
-  {
-    titulo: 'Curso de Biologia',
-    descricao: 'Conteúdo sobre genética e biologia celular.',
-    imagem: '/images/biologia.jpg',
-    videoUrl: 'https://www.youtube.com/watch?v=-Vv3USW7iRU',
-  },
-],
+        {
+          titulo: 'Curso de História',
+          descricao: 'Conteúdo sobre a Lofi Girl do YouTube',
+          imagem: 'https://images.squarespace-cdn.com/content/v1/580fbaac440243d8731ffc57/46cb49b3-63d7-40e1-9cd0-540fbecdc39c/Lofi+Girl+16x9.jpeg',
+          videoUrl: 'https://www.youtube.com/watch?v=Sj5C24PsL60',
+        },
+        {
+          titulo: 'Curso de Matemática',
+          descricao: 'Conteúdo sobre álgebra e cálculo.',
+          imagem: '/images/matematica.jpg',
+          videoUrl: 'https://www.youtube.com/watch?v=qAl-3ljg8N4',
+        },
+        {
+          titulo: 'Curso de Física',
+          descricao: 'Conteúdo sobre leis da física e mecânica clássica.',
+          imagem: '/images/fisica.jpg',
+          videoUrl: 'https://www.youtube.com/watch?v=B2u8FYE9fWk',
+        },
+        {
+          titulo: 'Curso de Biologia',
+          descricao: 'Conteúdo sobre genética e biologia celular.',
+          imagem: '/images/biologia.jpg',
+          videoUrl: 'https://www.youtube.com/watch?v=-Vv3USW7iRU',
+        },
+      ],
       conteudoSelecionado: null, // Variável que armazenará o conteúdo selecionado
     };
   },
@@ -118,7 +116,7 @@ export default {
 
 <style scoped>
 .conteudo-view-container {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 20px auto;
   padding: 20px;
   border-radius: 8px;
@@ -138,7 +136,16 @@ h2 {
   color: #666;
 }
 
-/* Estilo da Tabela */
+.conteudo-flex-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.conteudo-tabela-container {
+  flex: 1;
+}
+
 .conteudo-tabela {
   width: 100%;
   border-collapse: collapse;
@@ -164,9 +171,12 @@ h2 {
   background-color: #f1f1f1;
 }
 
-/* Estilo do Card de Detalhes */
+.conteudo-detalhado-container {
+  flex: 1;
+  max-width: 500px;
+}
+
 .conteudo-detalhado {
-  margin-top: 20px;
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;
@@ -187,7 +197,6 @@ button:hover {
   background-color: #0056b3;
 }
 
-/* Estilos de Imagem e Vídeo */
 .image-preview {
   margin-top: 15px;
   text-align: center;

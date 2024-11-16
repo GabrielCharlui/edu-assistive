@@ -7,29 +7,22 @@
 
     <div class="dashboard-content">
       <!-- Seção de Conteúdos -->
-      <section class="section conteudo-section">
+      
         <h2>Conteúdos Disponíveis</h2>
         <ConteudoView />
-      </section>
+     
 
-      <!-- Seção de Notas -->
-      <section class="section notas-section">
-        <h2>Minhas Notas</h2>
-        <NotasView />
-      </section>
     </div>
   </div>
 </template>
 
 <script>
 import ConteudoView from '../content-student/ConteudoView.vue';
-import NotasView from '../content-student/NotasView.vue';
 
 export default {
   name: 'DashboardPage',
   components: {
     ConteudoView,
-    NotasView,
   },
 };
 </script>
@@ -64,7 +57,7 @@ export default {
 
 /* Layout da área de conteúdo */
 .dashboard-content {
-  display: grid;
+  
   grid-template-columns: 1fr 1fr;
   gap: 30px;
 }

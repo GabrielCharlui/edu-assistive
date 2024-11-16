@@ -13,33 +13,17 @@
         <h2>Adicionar Conteúdo</h2>
         <ConteudoForm />
       </section>
-
-      <!-- Formulário de Notas -->
-      <section class="section notas-form-section">
-        <h2>Lançar Notas</h2>
-        <NotasForm />
-      </section>
-
-      <!-- Lista de Notas -->
-      <section class="section notas-list-section">
-        <h2>Notas dos Alunos</h2>
-        <NotasList />
-      </section>
     </div>
   </div>
 </template>
 
 <script>
 import ConteudoForm from '../content-teacher/ConteudoForm.vue';
-import NotasForm from '../content-teacher/NotasForm.vue';
-import NotasList from '../content-teacher/NotasList.vue';
 
 export default {
   name: 'DashboardPage',
   components: {
     ConteudoForm,
-    NotasForm,
-    NotasList
   },
 };
 </script>
@@ -74,7 +58,6 @@ export default {
 
 /* Layout da área de conteúdo */
 .dashboard-content {
-  display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 30px;
 }
