@@ -2,16 +2,11 @@
   <div class="dashboard">
     <div class="dashboard-header">
       <h1>Bem-vindo ao Dashboard do Aluno!</h1>
-      <p class="welcome-message">Aqui você pode visualizar seus conteúdos e notas de forma rápida e fácil.</p>
+      <p class="welcome-message">Aqui você pode visualizar seus conteúdos de forma rápida e fácil.</p>
     </div>
-
     <div class="dashboard-content">
-      <!-- Seção de Conteúdos -->
-      
         <h2>Conteúdos Disponíveis</h2>
         <ConteudoView />
-     
-
     </div>
   </div>
 </template>
@@ -28,7 +23,7 @@ export default {
 </script>
 
 <style scoped>
-/* Geral */
+
 .dashboard {
   display: flex;
   flex-direction: column;
@@ -55,7 +50,6 @@ export default {
   margin-top: 10px;
 }
 
-/* Layout da área de conteúdo */
 .dashboard-content {
   
   grid-template-columns: 1fr 1fr;
@@ -79,11 +73,6 @@ export default {
   background-color: #f9f9f9;
 }
 
-.notas-section {
-  background-color: #e9f7fe;
-}
-
-/* Estilos adicionais para responsividade */
 @media (max-width: 768px) {
   .dashboard-content {
     grid-template-columns: 1fr;

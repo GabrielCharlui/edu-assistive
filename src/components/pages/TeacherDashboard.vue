@@ -3,7 +3,7 @@
     <div class="dashboard-header">
       <h1>Bem-vindo ao Dashboard do Professor!</h1>
       <p class="welcome-message">
-        Aqui você pode gerenciar os conteúdos, lançar as notas e visualizar o desempenho dos alunos.
+        Aqui você pode gerenciar os conteúdos para os alunos.
       </p>
     </div>
 
@@ -75,20 +75,10 @@ export default {
   margin-bottom: 15px;
 }
 
-/* Estilos específicos para cada seção */
 .conteudo-form-section {
   background-color: #e9f7fe;
 }
 
-.notas-form-section {
-  background-color: #f9f9f9;
-}
-
-.notas-list-section {
-  background-color: #f1f8e9;
-}
-
-/* Estilos adicionais para responsividade */
 @media (max-width: 768px) {
   .dashboard-content {
     grid-template-columns: 1fr;

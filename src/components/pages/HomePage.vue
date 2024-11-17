@@ -15,7 +15,7 @@
       <!-- Página inicial -->
       <div class="banner" v-if="currentPage === 'home'">
         <h1>Bem-vindo à Plataforma de Ensino!</h1>
-        <p>Aprenda no seu próprio ritmo com a EducaWeb Assistiva.</p>
+        <h2>Aprenda no seu próprio ritmo com a EducaWeb Assistiva.</h2>
         <button @click="showPage('login')" class="cta-button">Acesse sua Conta</button>
       </div>
 
