@@ -52,6 +52,15 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     background-color: #f9f9f9;
   }
+
+  login {
+  background: url('/src/assets/banner2.png') no-repeat center center;
+  background-size: cover;
+  color: rgb(0, 0, 0);
+  width: 100%;
+  padding: 80px 20px;
+  text-align: center;
+}
   
   h2 {
     text-align: center;

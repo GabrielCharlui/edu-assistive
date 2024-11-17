@@ -15,8 +15,59 @@
       <!-- Página inicial -->
       <div class="banner" v-if="currentPage === 'home'">
         <h1>Bem-vindo à Plataforma de Ensino!</h1>
-        <p>Aprenda no seu próprio ritmo com nossos cursos online.</p>
+        <p>Aprenda no seu próprio ritmo com a EducaWeb Assistiva.</p>
         <button @click="showPage('login')" class="cta-button">Acesse sua Conta</button>
+      </div>
+
+      <!-- Página sobre -->
+      <div v-if="currentPage === 'about'">
+        <div class="sobre-container">
+          <section class="missao">
+            <h2>Missão</h2>
+            <p>A EducaWeb Assistiva tem como missão promover a inclusão digital e educacional de pessoas com deficiência, oferecendo uma plataforma acessível e interativa para aprendizagem.</p>
+          </section>
+
+          <section class="visao">
+            <h2>Visão</h2>
+            <p>Ser uma plataforma de referência em educação inclusiva, onde todos os alunos, independentemente de suas habilidades, tenham acesso igualitário ao conteúdo e ao aprendizado.</p>
+          </section>
+
+          <section class="valores">
+            <h2>Valores</h2>
+            <p>Acessibilidade</p>
+            <p>Inclusão</p>
+            <p>Empatia</p>
+            <p>Inovação</p>
+          </section>
+
+          <section class="publico-alvo">
+            <h2>Público-alvo</h2>
+            <p>A plataforma é voltada para pessoas com deficiência (deficiência visual, auditiva, cognitiva, etc.), educadores, instituições de ensino e profissionais da área de acessibilidade.</p>
+          </section>
+
+          <section class="objetivos">
+            <h2>Objetivos</h2>
+            <p>Fornecer recursos de aprendizagem acessíveis, ferramentas de suporte como leitores de tela, legendas e conteúdo em formatos adaptados, promovendo a autonomia e inclusão dos alunos.</p>
+          </section>
+        </div>
+      </div>
+      
+      <!-- Página cursos -->
+      <div v-if="currentPage === 'courses'">
+        <section class="features">
+          <!-- Contêiner de cards com layout de grid -->
+          <div class="cards-container">
+            <!-- Loop para gerar 6 cards -->
+            <div v-for="i in 6" :key="i" class="card">
+              <img :src="getImageSrc(i)" class="card-img-top" :alt="getImageAlt(i)">
+              <div class="card-body">
+                <p class="card-text">
+                  <strong>{{ getCursoDescricao(i) }}</strong>
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
 
       <!-- Página de Login -->
@@ -30,7 +81,7 @@
     </main>
 
     <footer>
-      <p>&copy; 2024 Plataforma de Ensino. Todos os direitos reservados.</p>
+      <p>&copy; 2024 EducaWeb Assistiva. Todos os direitos reservados.</p>
     </footer>
   </div>
 </template>
@@ -52,7 +103,17 @@ export default {
       currentPage: 'home', // Página inicial
       isAuthenticated: false, // Estado de autenticação
       isStudent: false, // Estado para aluno
-      isTeacher: false // Estado para professor
+      isTeacher: false, // Estado para professor
+
+      // Imagens e alt text para cursos
+      courseImages: [
+        { src: require('@/assets/images/portugues.png'), alt: 'Ícone da Matéria de Português' },
+        { src: require('@/assets/images/matematica.png'), alt: 'Ícone da Matéria de Matemática' },
+        { src: require('@/assets/images/fisica.png'), alt: 'Ícone da Matéria de Física' },
+        { src: require('@/assets/images/biologia.png'), alt: 'Ícone da Matéria de Biologia' },
+        { src: require('@/assets/images/quimica.png'), alt: 'Ícone da Matéria de Química' },
+        { src: require('@/assets/images/espanhol.png'), alt: 'Ícone da Matéria de Espanhol' }
+      ]
     };
   },
   methods: {
@@ -60,7 +121,27 @@ export default {
     showPage(page) {
       this.currentPage = page;
     },
-    
+
+    getCursoDescricao(index) {
+      const cursos = [
+        'Matéria de Português',
+        'Matéria de Matemática',
+        'Matéria de Física',
+        'Matéria de Biologia',
+        'Matéria de Química',
+        'Matéria de Espanhol',
+      ];
+      return cursos[index - 1]; // Retorna a descrição baseada no índice do curso
+    },
+
+    // Métodos para pegar a imagem e o alt text dos cursos
+    getImageSrc(index) {
+      return this.courseImages[index - 1].src;
+    },
+    getImageAlt(index) {
+      return this.courseImages[index - 1].alt;
+    },
+
     // Método para tratar o login e definir o tipo de conta
     handleLoginSuccess(userType) {
       this.isAuthenticated = true; // Define que o usuário está autenticado
@@ -107,10 +188,12 @@ export default {
 }
 
 .banner {
-  background: url('/src/assets/banner.png') no-repeat center center;
+  background: url('/src/assets/banner1.png') no-repeat center center;
   background-size: cover;
-  color: white;
-  padding: 50px 20px;
+  color: #000000;
+  width: 100%;
+  padding: 80px 20px;
+  text-align: center;
 }
 
 .banner h1 {
@@ -119,7 +202,7 @@ export default {
 }
 
 .banner p {
-  font-size: 18px;
+  font-size: 20px;
   margin-bottom: 20px;
 }
 
@@ -135,6 +218,11 @@ main {
   padding: 20px;
 }
 
+.card {
+  margin-bottom: 20px;
+  width: 18rem;
+}
+
 .cta-button {
   padding: 10px 20px;
   background-color: #ff5722;
@@ -145,6 +233,69 @@ main {
 
 .cta-button:hover {
   background-color: #e64a19;
+}
+
+.sobre-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.sobre-container h1 {
+  text-align: center;
+  color: #3b82f6;
+}
+
+.sobre-container section {
+  margin-bottom: 20px;
+}
+
+.sobre-container h2 {
+  color: #1e40af;
+}
+
+.sobre-container ul {
+  list-style-type: none;
+  padding-left: 20px;
+}
+
+.sobre-container p {
+  line-height: 1.6;
+  color: #333;
+}
+
+.features {
+  padding: 20px;
+}
+
+/* Layout grid para 2 colunas */
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 colunas */
+  gap: 20px; /* Espaçamento entre os cards */
+}
+
+.card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+  padding: 10px;
+  width: 80px;
+  height: auto;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.card-text {
+  font-size: 1rem;
+  color: #555;
 }
 
 footer {
