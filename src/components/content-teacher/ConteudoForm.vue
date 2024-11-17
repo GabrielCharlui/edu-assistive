@@ -1,66 +1,76 @@
 <template>
   <div class="conteudo-form-container">
     <h2>Indicar Conteúdo</h2>
-    <form @submit.prevent="submitConteudo" class="form">
-      <div class="form-group">
-        <label for="titulo">Título do Conteúdo</label>
-        <input
-          id="titulo"
-          v-model="titulo"
-          placeholder="Digite o título do conteúdo"
-          required
-          class="form-input"
-        />
+    
+    <button 
+      type="button" 
+      class="submit-button-command" 
+      @click="tipoConteudo = 'texto'"
+    >
+      Texto
+    </button>
+    <button 
+      type="button" 
+      class="submit-button-command" 
+      @click="tipoConteudo = 'video'"
+    >
+      Vídeo
+    </button>
+
+    <!-- Exibe o formulário somente após a seleção do tipo de conteúdo -->
+    <div v-if="tipoConteudo">
+      <form @submit.prevent="submitConteudo" class="form">
+        <div class="form-group">
+          <label for="titulo">Título do Conteúdo</label>
+          <input
+            id="titulo"
+            v-model="titulo"
+            placeholder="Digite o título do conteúdo"
+            required
+            class="form-input"
+          />
+        </div>
+
+        <div v-if="tipoConteudo === 'texto'" class="form-group">
+          <label for="descricao">Descrição do Conteúdo</label>
+          <textarea
+            id="descricao"
+            v-model="descricao"
+            placeholder="Digite a descrição do conteúdo"
+            required
+            class="form-textarea"
+          ></textarea>
+        </div>
+
+        <div v-if="tipoConteudo === 'video'" class="form-group">
+          <label for="videoUrl">Link do Vídeo (YouTube)</label>
+          <input
+            id="videoUrl"
+            v-model="videoUrl"
+            placeholder="Cole o link do vídeo do YouTube"
+            required
+            class="form-input"
+          />
+        </div>
+
+        <button type="submit" class="submit-button">Salvar Conteúdo</button>
+        <div v-if="mensagem" class="message">{{ mensagem }}</div>
+      </form>
+
+      <div v-if="previewImage" class="image-preview">
+        <h3>Pré-visualização da Imagem:</h3>
+        <img :src="previewImage" alt="Imagem Preview" class="preview-image" />
       </div>
 
-      <div class="form-group">
-        <label for="descricao">Descrição do Conteúdo</label>
-        <textarea
-          id="descricao"
-          v-model="descricao"
-          placeholder="Digite a descrição do conteúdo"
-          required
-          class="form-textarea"
-        ></textarea>
+      <div v-if="videoUrl" class="video-preview">
+        <h3>Vídeo Preview:</h3>
+        <iframe
+          :src="youtubeEmbed(videoUrl)"
+          frameborder="0"
+          allowfullscreen
+          class="video-frame"
+        ></iframe>
       </div>
-
-      <div class="form-group">
-        <label for="imagem">Selecionar Imagem</label>
-        <input
-          type="file"
-          @change="handleImageUpload"
-          accept="image/*"
-          class="form-input"
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="videoUrl">Link do Vídeo (YouTube)</label>
-        <input
-          id="videoUrl"
-          v-model="videoUrl"
-          placeholder="Cole o link do vídeo do YouTube"
-          class="form-input"
-        />
-      </div>
-
-      <button type="submit" class="submit-button">Salvar Conteúdo</button>
-      <div v-if="mensagem" class="message">{{ mensagem }}</div>
-    </form>
-
-    <div v-if="previewImage" class="image-preview">
-      <h3>Pré-visualização da Imagem:</h3>
-      <img :src="previewImage" alt="Imagem Preview" class="preview-image" />
-    </div>
-
-    <div v-if="videoUrl" class="video-preview">
-      <h3>Vídeo Preview:</h3>
-      <iframe
-        :src="youtubeEmbed(videoUrl)"
-        frameborder="0"
-        allowfullscreen
-        class="video-frame"
-      ></iframe>
     </div>
   </div>
 </template>
@@ -69,6 +79,7 @@
 export default {
   data() {
     return {
+      tipoConteudo: '',  // Inicialmente, não há tipo de conteúdo selecionado
       titulo: '',
       descricao: '',
       videoUrl: '',
@@ -77,18 +88,8 @@ export default {
     };
   },
   methods: {
-    handleImageUpload(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.previewImage = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
-    },
     submitConteudo() {
-      // Aqui você pode enviar os dados para um servidor ou armazená-los localmente
+      // Enviar ou armazenar os dados
       this.mensagem = `Conteúdo "${this.titulo}" salvo com sucesso!`;
       this.titulo = '';
       this.descricao = '';
@@ -98,7 +99,6 @@ export default {
     youtubeEmbed(url) {
       const videoId = url.split('v=')[1];
       const ampersandPosition = videoId ? videoId.indexOf('&') : -1;
-      // Example https://www.youtube.com/watch?v=Sj5C24PsL60
       return `https://www.youtube.com/embed/${
         ampersandPosition === -1 ? videoId : videoId.substring(0, ampersandPosition)
       }`;
@@ -162,6 +162,18 @@ label {
 
 .submit-button {
   padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-button-command {
+  padding: 10px;
+  margin: 10px;
   border: none;
   border-radius: 5px;
   background-color: #007bff;

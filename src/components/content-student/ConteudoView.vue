@@ -34,12 +34,6 @@
           <h3>{{ conteudoSelecionado.titulo }}</h3>
           <p>{{ conteudoSelecionado.descricao }}</p>
 
-          <!-- Visualização de Imagem (se houver) -->
-          <div v-if="conteudoSelecionado.imagem" class="image-preview">
-            <h4>Imagem do Conteúdo:</h4>
-            <img :src="conteudoSelecionado.imagem" alt="Conteúdo Imagem" class="preview-image" />
-          </div>
-
           <!-- Visualização de Vídeo (se houver) -->
           <div v-if="conteudoSelecionado.videoUrl" class="video-preview">
             <h4>Vídeo do Conteúdo:</h4>
@@ -51,7 +45,7 @@
             ></iframe>
           </div>
 
-          <button @click="fecharConteudo">Fechar</button>
+          <button @click="fecharConteudo" aria-label="Fechar conteúdo">Fechar</button>
         </div>
       </div>
     </div>
@@ -66,25 +60,21 @@ export default {
         {
           titulo: 'Curso de História',
           descricao: 'Conteúdo sobre a Lofi Girl do YouTube',
-          imagem: 'https://images.squarespace-cdn.com/content/v1/580fbaac440243d8731ffc57/46cb49b3-63d7-40e1-9cd0-540fbecdc39c/Lofi+Girl+16x9.jpeg',
           videoUrl: 'https://www.youtube.com/watch?v=Sj5C24PsL60',
         },
         {
           titulo: 'Curso de Matemática',
           descricao: 'Conteúdo sobre álgebra e cálculo.',
-          imagem: '/images/matematica.jpg',
           videoUrl: 'https://www.youtube.com/watch?v=qAl-3ljg8N4',
         },
         {
           titulo: 'Curso de Física',
           descricao: 'Conteúdo sobre leis da física e mecânica clássica.',
-          imagem: '/images/fisica.jpg',
           videoUrl: 'https://www.youtube.com/watch?v=B2u8FYE9fWk',
         },
         {
           titulo: 'Curso de Biologia',
           descricao: 'Conteúdo sobre genética e biologia celular.',
-          imagem: '/images/biologia.jpg',
           videoUrl: 'https://www.youtube.com/watch?v=-Vv3USW7iRU',
         },
       ],
@@ -94,11 +84,8 @@ export default {
   methods: {
     // Método para gerar o link embutido do YouTube
     youtubeEmbed(url) {
-      const videoId = url.split('v=')[1];
-      const ampersandPosition = videoId ? videoId.indexOf('&') : -1;
-      return `https://www.youtube.com/embed/${
-        ampersandPosition === -1 ? videoId : videoId.substring(0, ampersandPosition)
-      }`;
+      const match = url.match(/(?:youtube\.com\/(?:[^/]+\/[^/]+\/|(?:v|e(?:mbed)?)\/|(?:.*[?&]v=))|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+      return match ? `https://www.youtube.com/embed/${match[1]}` : '';
     },
 
     // Método para abrir o conteúdo detalhado
@@ -195,17 +182,6 @@ button {
 
 button:hover {
   background-color: #0056b3;
-}
-
-.image-preview {
-  margin-top: 15px;
-  text-align: center;
-}
-
-.preview-image {
-  max-width: 100%;
-  height: auto;
-  border-radius: 5px;
 }
 
 .video-preview {
