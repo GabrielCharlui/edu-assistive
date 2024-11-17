@@ -45,6 +45,16 @@
             ></iframe>
           </div>
 
+          <!-- Reprodutor de Áudio (se houver) -->
+          <div v-if="conteudoSelecionado.audioUrl" class="audio-preview">
+            <h4>Áudio do Conteúdo:</h4>
+            <!-- Reprodutor de Áudio -->
+            <audio controls>
+              <source :src="conteudoSelecionado.audioUrl" type="audio/mp3" />
+              Seu navegador não suporta o reprodutor de áudio.
+            </audio>
+          </div>
+
           <button @click="fecharConteudo" aria-label="Fechar conteúdo">Fechar</button>
         </div>
       </div>
@@ -61,6 +71,7 @@ export default {
           titulo: 'Curso de História',
           descricao: 'Conteúdo sobre a Lofi Girl do YouTube',
           videoUrl: 'https://www.youtube.com/watch?v=Sj5C24PsL60',
+          audioUrl: 'https://polly-golang.s3.us-east-2.amazonaws.com/ceac6c64-eb46-4592-bf1d-42cb7a454fbf.mp3?response-content-disposition=inline&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Security-Token=IQoJb3JpZ2luX2VjELT%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMiJGMEQCIHyoamOepOeHr9P%2FOw20Vs%2B%2BacYdDySt227%2F5pAYUfh7AiAcEa4PorYeidse4l0PH6aO1DtuSKOTaZgcGQp3MQ1ppCrHAwhNEAAaDDQ5MTA4NTM4OTExNSIMSJ50lG%2Fs0%2FQ%2Bn%2F7GKqQDzkfEji97e7pqhgKicdXTdNjpOx4JipknI3PFe3pac3u5x4ScuutVUkkId2qOZ7cs9ufVl7NB0hkmEx%2BSUyl5FE09Duhv1p194laKNrHYJcZ2yQ9qYl0osUbUuema%2FpnH7l9RGs0hcLBSiK2hPSJ19hugIAvk2HXeSJ8zmXlL9WyuT0aUmehg0%2BIi4gG5yb1G31UI%2BUpmCM6%2BzaWNSamd4sQReXpOtHfyfLss5tXEWJ4eGAwuBfDcIGirjMHYkFTylos2n0crLld%2FDDhqMwN007uY6yEOwHUM1fXbyiYwnL2LPnnq9GTIzrug7h%2B4nDoY6PbkeHeR3m36pHXsfiBgSfVYnPmkOZ5QTGgjhpSeZXYA%2FBLkw59aTDEzpw4ih1zIXDs3rx2iMnAApY7B4T0YPhXQ2Vw%2FtZy2MXsUYDY4U8n8sAOFjei8%2BG%2BVUGdvAoAldTzB1V6rG3Xe5xcz6lX7DPykeEGte94OZqaxBLSkwKBM4cRcYaEB0nEZy3%2Fj40JZ9EwyHz%2BSCZkpeUokp4GSV1OcEY6jAXJQEADFpCf6tTLMpYziMOqW6bkGOuUCzr2G5mM%2Fk3FN5vbLsNhpT14E7lf8Ks1zOI74i0crpcI053fiNrvS%2FC9PMM%2B1eZieWPTCO2gvzb6EnvXXdi9xbUa0KnhWuzm27piRhIu2hYWVL1WnPx3KjYgBKwrAyfUl6a6ntJ8zUISKIS1y5w1kIPM9rufxau77KwEoparqlKhZQYthTI%2F41vVoXxZ4GWFR5a8rB7K8HflRXQABQLRrKVEsNfp30huadfmN0%2FwsgEMVNY%2FHbmbSWsKAxAFeNrIwEuiKSg8I3G3jsWktMULPcl8iFlcwE4mciJzghHJtIKd979NB%2FSzpJX6OLPf%2BLdphiId6amSkHh02Rvu087ZSN2Sa%2BEZXLGJF4JEDBvGLLOVE0iwba6PQWXT8X%2FwcPPmGb%2BAKeT4hUs9bpGpoJSk7Hd95YfScGleUMRdtp1RVXUAzhKQ6byKORuXacpK1bmJ8XFp7hoxFNuqzyrURbR1ih6PSgi6M&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAXEVXYLU53Y6FOK5K%2F20241117%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20241117T200750Z&X-Amz-Expires=43200&X-Amz-SignedHeaders=host&X-Amz-Signature=1fe74f995b88bbd5e5587f1e6d37d5fa2fbd2be88ee02f7eaa0e9749b1359757',
         },
         {
           titulo: 'Curso de Matemática',
@@ -102,6 +113,7 @@ export default {
 </script>
 
 <style scoped>
+/* Estilos permanecem os mesmos */
 .conteudo-view-container {
   max-width: 1200px;
   margin: 20px auto;
@@ -184,7 +196,8 @@ button:hover {
   background-color: #0056b3;
 }
 
-.video-preview {
+.video-preview,
+.audio-preview {
   margin-top: 20px;
   text-align: center;
 }
